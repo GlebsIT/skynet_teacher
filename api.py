@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 # Импортируем модули для работы с JSON и логами.
 import json
 import logging
+import sqlite3
 
 # Импортируем подмодули Flask для запуска веб-сервиса.
 from flask import Flask, request
@@ -63,13 +64,19 @@ def handle_dialog(req, res):
 
     # Обрабатываем ответ пользователя.
     if req['request']['original_utterance'].lower() in [
-        'ладно',
-        'куплю',
-        'покупаю',
-        'хорошо',
+        'преподаватель',
+        'учитель',
+        'педагок',
+        'тренер',
     ]:
-        # Пользователь согласился, прощаемся.
-        res['response']['text'] = 'Слона можно найти на Яндекс.Маркете!'
+
+        conn = sqlite3.connect("project.db")  # или :memory: чтобы сохранить в RAM
+        cursor = conn.cursor()
+        cursor.execute("""INSERT INTO teachers ('id_telephone','name','surname','patronomyc','email','school','city')
+                          VALUES (user_id, 'test', 'test', 'test',
+                          'test@mail.ru', '71','Тольятти')"""
+                       )
+        res['response']['text'] = 'Добавлен учитель'
         return
 
     # Если нет, то убеждаем его купить слона!
