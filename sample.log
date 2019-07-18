@@ -1,0 +1,66 @@
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [18/Jul/2019 21:06:14] "GET / HTTP/1.1" 405 -
+INFO:werkzeug:127.0.0.1 - - [18/Jul/2019 21:06:14] "GET /favicon.ico HTTP/1.1" 404 -
+INFO:werkzeug:127.0.0.1 - - [18/Jul/2019 21:08:07] "POST / HTTP/1.1" 400 -
+INFO:werkzeug:127.0.0.1 - - [18/Jul/2019 21:08:34] "POST / HTTP/1.1" 400 -
+INFO:werkzeug:127.0.0.1 - - [18/Jul/2019 21:08:47] "GET / HTTP/1.1" 405 -
+INFO:werkzeug:127.0.0.1 - - [18/Jul/2019 21:08:52] "POST / HTTP/1.1" 400 -
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:root:Request: None
+ERROR:api:Exception on / [POST]
+Traceback (most recent call last):
+  File "C:\Python\lib\site-packages\flask\app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python\lib\site-packages\flask\app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python\lib\site-packages\flask\app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Python\lib\site-packages\flask\app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python\lib\site-packages\flask\app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\Gleb\PycharmProjects\skynet_teacher\api.py", line 27, in main
+    "version": request.json['version'],
+TypeError: 'NoneType' object is not subscriptable
+INFO:werkzeug:127.0.0.1 - - [18/Jul/2019 21:33:32] "POST / HTTP/1.1" 500 -
+INFO:root:Request: None
+ERROR:api:Exception on / [POST]
+Traceback (most recent call last):
+  File "C:\Python\lib\site-packages\flask\app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python\lib\site-packages\flask\app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python\lib\site-packages\flask\app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Python\lib\site-packages\flask\app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python\lib\site-packages\flask\app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\Gleb\PycharmProjects\skynet_teacher\api.py", line 27, in main
+    "version": request.json['version'],
+TypeError: 'NoneType' object is not subscriptable
+INFO:werkzeug:127.0.0.1 - - [18/Jul/2019 21:35:25] "POST / HTTP/1.1" 500 -
+INFO:root:Request: None
+ERROR:api:Exception on / [POST]
+Traceback (most recent call last):
+  File "C:\Python\lib\site-packages\flask\app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Python\lib\site-packages\flask\app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Python\lib\site-packages\flask\app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Python\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "C:\Python\lib\site-packages\flask\app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Python\lib\site-packages\flask\app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "C:\Users\Gleb\PycharmProjects\skynet_teacher\api.py", line 27, in main
+    "version": request.json['version'],
+TypeError: 'NoneType' object is not subscriptable
+INFO:werkzeug:127.0.0.1 - - [18/Jul/2019 21:36:05] "POST / HTTP/1.1" 500 -
