@@ -11,7 +11,7 @@ from flask import Flask, request
 app = Flask(__name__)
 
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(filename="sample.log", level=logging.DEBUG)
 
 # Хранилище данных о сессиях.
 sessionStorage = {}
