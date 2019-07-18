@@ -76,6 +76,7 @@ def handle_dialog(req, res):
                           VALUES ('e', 'test', 'test', 'test',
                             'test@mail.ru', '71','Тольятти')"""
                         )
+        conn.commit()
         res['response']['text'] = 'Добавлен учитель'
         return
 
