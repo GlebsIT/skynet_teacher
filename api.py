@@ -70,7 +70,7 @@ def handle_dialog(req, res):
         'тренер',
     ]:
 
-        conn = sqlite3.connect("project.db")  # или :memory: чтобы сохранить в RAM
+        conn = sqlite3.connect("project.db")
         cursor = conn.cursor()
         cursor.execute("""INSERT INTO teachers ('id_telephone','name','surname','patronomyc','email','school','city')
                           VALUES (user_id, 'test', 'test', 'test',
