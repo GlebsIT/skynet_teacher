@@ -73,7 +73,7 @@ def handle_dialog(req, res):
         conn = sqlite3.connect("project.db")
         cursor = conn.cursor()
         cursor.execute("""INSERT INTO teachers ('id_telephone','name','surname','patronymic','email','school','sity')
-                          VALUES (user_id, 'test', 'test', 'test',
+                          VALUES ('e', 'test', 'test', 'test',
                             'test@mail.ru', '71','Тольятти')"""
                         )
         res['response']['text'] = 'Добавлен учитель'
