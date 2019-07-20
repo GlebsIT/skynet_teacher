@@ -90,7 +90,7 @@ def handle_dialog(req, res):
         'выйти',
     ]:
 
-        res['response']['text'] = 'Добавлен учитель'
+        res['response']['text'] = 'Сессия убита'
         res['response']['end_session'] =  True
         return
 
