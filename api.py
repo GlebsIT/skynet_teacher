@@ -45,7 +45,7 @@ def main():
 # Функция для непосредственной обработки диалога.
 def handle_dialog(req, res):
     user_id = req['session']['user_id']
-    logging.info('user_id: %r', user_id)
+
 
     if req['session']['new']:
         # Это новый пользователь.
@@ -59,7 +59,7 @@ def handle_dialog(req, res):
             ]
         }
 
-        res['response']['text'] = 'Добрый день это помошник учителя, вы преподаватель или родитель ? 1.2'
+        res['response']['text'] = 'Добрый день это помошник учителя, вы преподаватель или родитель ? 1.3'
         res['response']['buttons'] = get_suggests(user_id)
         return
 
@@ -78,12 +78,12 @@ def handle_dialog(req, res):
       #                      'test@mail.ru', '71','Тольятти')"""
       #                  )
         database = "project.db"
-
+        logging.info('user_id: %r', user_id)
         # create a database connection
         conn = create_connection(database)
         with conn:
             # create a new teacher
-            teachers = ('362D860835F7C2D5FF4BAE9576B2D2273F6AD7E537DC49CE49D242198C742AF9', 'test', 'test', 'test','test@mail.ru', '71','Тольятти');
+            teachers = (user_id, 'test', 'test', 'test','test@mail.ru', '71','Тольятти');
             create_teacher(conn, teachers)
 
        # conn.commit()
