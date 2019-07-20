@@ -59,7 +59,7 @@ def handle_dialog(req, res):
             ]
         }
 
-        res['response']['text'] = 'Добрый день это помошник учителя, вы преподаватель или родитель ? 1.1'
+        res['response']['text'] = 'Добрый день это помошник учителя, вы преподаватель или родитель ? 1.2'
         res['response']['buttons'] = get_suggests(user_id)
         return
 
@@ -74,7 +74,7 @@ def handle_dialog(req, res):
         conn = sqlite3.connect("project.db")
         cursor = conn.cursor()
         cursor.execute("""INSERT INTO teachers ('id_telephone','name','surname','patronymic','email','school','sity')
-                          VALUES ( 'test', 'test', 'test', 'test',
+                          VALUES (user_id, 'test', 'test', 'test',
                             'test@mail.ru', '71','Тольятти')"""
                         )
         conn.commit()
