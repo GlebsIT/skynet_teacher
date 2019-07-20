@@ -45,7 +45,8 @@ def main():
 # Функция для непосредственной обработки диалога.
 def handle_dialog(req, res):
     user_id = req['session']['user_id']
-
+    database = "project.db"
+    conn = create_connection(database)
 
     if req['session']['new']:
         # Это новый пользователь.
@@ -71,16 +72,7 @@ def handle_dialog(req, res):
         'тренер',
     ]:
 
-      #  conn = sqlite3.connect("")
-      #  cursor = conn.cursor()
-      #  cursor.execute("""INSERT INTO teachers ('id_telephone','name','surname','patronymic','email','school','sity')
-      #                    VALUES (user_id, 'test', 'test', 'test',
-      #                      'test@mail.ru', '71','Тольятти')"""
-      #                  )
-        database = "project.db"
-        logging.info('user_id: %r', user_id)
         # create a database connection
-        conn = create_connection(database)
         with conn:
             # create a new teacher
             teachers = (user_id, 'test', 'test', 'test','test@mail.ru', '71','Тольятти');
@@ -88,6 +80,18 @@ def handle_dialog(req, res):
 
        # conn.commit()
         res['response']['text'] = 'Добавлен учитель'
+        return
+
+    # Пользователь хочет выйти из навыка
+    if req['request']['original_utterance'].lower() in [
+        'Выйти',
+        'Закрыть',
+        'закрыть',
+        'выйти',
+    ]:
+
+        res['response']['text'] = 'Добавлен учитель'
+        res['response']['end_session'] =  True
         return
 
     # Если нет, то убеждаем его купить слона!
