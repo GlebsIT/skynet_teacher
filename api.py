@@ -71,13 +71,22 @@ def handle_dialog(req, res):
         'тренер',
     ]:
 
-        conn = sqlite3.connect("project.db")
-        cursor = conn.cursor()
-        cursor.execute("""INSERT INTO teachers ('id_telephone','name','surname','patronymic','email','school','sity')
-                          VALUES (user_id, 'test', 'test', 'test',
-                            'test@mail.ru', '71','Тольятти')"""
-                        )
-        conn.commit()
+      #  conn = sqlite3.connect("")
+      #  cursor = conn.cursor()
+      #  cursor.execute("""INSERT INTO teachers ('id_telephone','name','surname','patronymic','email','school','sity')
+      #                    VALUES (user_id, 'test', 'test', 'test',
+      #                      'test@mail.ru', '71','Тольятти')"""
+      #                  )
+        database = "project.db"
+
+        # create a database connection
+        conn = create_connection(database)
+        with conn:
+            # create a new teacher
+            teachers = ('362D860835F7C2D5FF4BAE9576B2D2273F6AD7E537DC49CE49D242198C742AF9', 'test', 'test', 'test','test@mail.ru', '71','Тольятти');
+            create_teacher(conn, teachers)
+
+       # conn.commit()
         res['response']['text'] = 'Добавлен учитель'
         return
 
@@ -111,3 +120,30 @@ def get_suggests(user_id):
         })
 
     return suggests
+
+def create_connection(db_file):
+    """ create a database connection to the SQLite database
+        specified by db_file
+    :param db_file: database file
+    :return: Connection object or None
+    """
+    try:
+        conn = sqlite3.connect(db_file)
+        return conn
+    except sqlite3.Error as e:
+        logging.info('error bd: %r', e)
+
+    return None
+
+def create_teacher(conn, teacher):
+    """
+    Create a new project into the projects table
+    :param conn:
+    :param project:
+    :return: project id
+    """
+    sql = ''' INSERT INTO projects(id_telephone,name,surname,patronymic,email,school,sity)
+              VALUES(?,?,?,?,?,?,?) '''
+    cur = conn.cursor()
+    cur.execute(sql, teacher)
+    return cur.lastrowid
