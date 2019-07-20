@@ -59,7 +59,7 @@ def handle_dialog(req, res):
             ]
         }
 
-        res['response']['text'] = 'Добрый день это помошник учителя, вы преподаватель или родитель ? 1.3'
+        res['response']['text'] = 'Добрый день это помошник учителя, вы преподаватель или родитель ? 1.2'
         res['response']['buttons'] = get_suggests(user_id)
         return
 
@@ -83,7 +83,7 @@ def handle_dialog(req, res):
         conn = create_connection(database)
         with conn:
             # create a new teacher
-            teachers = ('123', 'test', 'test', 'test','test@mail.ru', '71','Тольятти');
+            teachers = ('362D860835F7C2D5FF4BAE9576B2D2273F6AD7E537DC49CE49D242198C742AF9', 'test', 'test', 'test','test@mail.ru', '71','Тольятти');
             create_teacher(conn, teachers)
 
        # conn.commit()
@@ -142,7 +142,7 @@ def create_teacher(conn, teacher):
     :param project:
     :return: project id
     """
-    sql = ''' INSERT INTO projects(id_telephone,name,surname,patronymic,email,school,sity)
+    sql = ''' INSERT INTO teachers(id_telephone,name,surname,patronymic,email,school,sity)
               VALUES(?,?,?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, teacher)
