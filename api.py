@@ -91,7 +91,7 @@ def handle_dialog(req, res):
     ]:
 
         res['response']['text'] = 'Сессия убита'
-        res['response']['end_session'] =  True
+        res['response']['end_session'] = True
         return
 
     # Если нет, то убеждаем его купить слона!
