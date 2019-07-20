@@ -22,7 +22,7 @@ sessionStorage = {}
 
 def main():
 # Функция получает тело запроса и возвращает ответ.
-    logging.info('Request: %r', request.json)
+    #logging.info('Request: %r', request.json)
 
     response = {
         "version": request.json['version'],
@@ -34,7 +34,7 @@ def main():
 
     handle_dialog(request.json, response)
 
-    logging.info('Response: %r', response)
+    #logging.info('Response: %r', response)
 
     return json.dumps(
         response,
@@ -45,6 +45,7 @@ def main():
 # Функция для непосредственной обработки диалога.
 def handle_dialog(req, res):
     user_id = req['session']['user_id']
+    logging.info('user_id: %r', user_id)
 
     if req['session']['new']:
         # Это новый пользователь.
@@ -58,7 +59,7 @@ def handle_dialog(req, res):
             ]
         }
 
-        res['response']['text'] = 'Добрый день это помошник учителя, вы преподаватель или родитель ? 1.0'
+        res['response']['text'] = 'Добрый день это помошник учителя, вы преподаватель или родитель ? 1.1'
         res['response']['buttons'] = get_suggests(user_id)
         return
 
@@ -73,7 +74,7 @@ def handle_dialog(req, res):
         conn = sqlite3.connect("project.db")
         cursor = conn.cursor()
         cursor.execute("""INSERT INTO teachers ('id_telephone','name','surname','patronymic','email','school','sity')
-                          VALUES ('e', 'test', 'test', 'test',
+                          VALUES ( 'test', 'test', 'test', 'test',
                             'test@mail.ru', '71','Тольятти')"""
                         )
         conn.commit()
