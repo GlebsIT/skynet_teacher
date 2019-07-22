@@ -45,8 +45,6 @@ def main():
 # Функция для непосредственной обработки диалога.
 def handle_dialog(req, res):
     user_id = req['session']['user_id']
-    database = "project.db"
-    conn = create_connection(database)
 
     if req['session']['new']:
         # Это новый пользователь.
@@ -71,15 +69,20 @@ def handle_dialog(req, res):
         'педагок',
         'тренер',
     ]:
-
+        res['response']['text'] = 'Добавлен учитель'
+        database = "project.db"
+        conn = create_connection(database)
         # create a database connection
         with conn:
             # create a new teacher
-            teachers = (user_id, 'test', 'test', 'test','test@mail.ru', '71','Тольятти');
+            teachers = (user_id, 'test', 'test', 'test','test@mail.ru', '71','Тольятти')
             create_teacher(conn, teachers)
 
+            message = (user_id,req['session']['message_id'],req['session']['message_id'], req['request']['original_utterance'], res['response']['text'],)
+            create_message(conn,message)
+
        # conn.commit()
-        res['response']['text'] = 'Добавлен учитель'
+
         return
 
     # Пользователь хочет выйти из навыка
@@ -146,8 +149,22 @@ def create_teacher(conn, teacher):
     :param project:
     :return: project id
     """
-    sql = ''' INSERT INTO teachers(id_telephone,name,surname,patronymic,email,school,sity)
+    sql = ''' INSERT INTO teachers(user_id,name,surname,patronymic,email,school,sity)
               VALUES(?,?,?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, teacher)
+    return cur.lastrowid
+
+
+def create_message(conn, message):
+    """
+    Create a new project into the projects table
+    :param conn:
+    :param project:
+    :return: project id
+    """
+    sql = ''' INSERT INTO teachers(user_id,name,surname,patronymic,email,school,sity)
+              VALUES(?,?,?,?,?,?,?) '''
+    cur = conn.cursor()
+    cur.execute(sql, message)
     return cur.lastrowid
