@@ -83,7 +83,6 @@ def handle_dialog(req, res):
 
            # message = (user_id,req['session']['message_id'],req['session']['message_id'], req['request']['original_utterance'], res['response']['text'],)
            # create_message(conn,message)
-
        # conn.commit()
 
         return
