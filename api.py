@@ -81,8 +81,9 @@ def handle_dialog(req, res):
             teachers = ('test', user_id)
             create_teacher(conn, teachers)
 
-            # message = (user_id,req['session']['message_id'],req['session']['message_id'], req['request']['original_utterance'], res['response']['text'],)
-            # create_message(conn,message)
+            message = (user_id, req['session']['message_id'], req['session']['message_id'], req['request']['original_utterance'], res['response']['text'])
+            create_message(conn,message)
+
         # conn.commit()
 
         return
@@ -167,8 +168,8 @@ def create_message(conn, message):
     :param project:
     :return: project id
     """
-    sql = ''' INSERT INTO teachers(user_id,name,surname,patronymic,email,school,city)
-              VALUES(?,?,?,?,?,?,?) '''
+    sql = ''' INSERT INTO messages(user_id,message_id,session_id,request,response)
+              VALUES(?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, message)
     return cur.lastrowid
