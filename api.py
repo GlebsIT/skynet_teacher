@@ -58,7 +58,7 @@ def handle_dialog(req, res):
             ]
         }
 
-        res['response']['text'] = 'Добрый день это помошник учителя, вы преподаватель или родитель ? 1.3'
+        res['response']['text'] = 'Добрый день это помошник учителя, вы преподаватель или родитель ? 1.4'
         res['response']['buttons'] = get_suggests(user_id)
         return
 
