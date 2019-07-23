@@ -59,7 +59,7 @@ def handle_dialog(req, res):
             ]
         }
 
-        res['response']['text'] = 'Добрый день это помошник учителя, вы преподаватель или родитель ? 1.5'
+        res['response']['text'] = 'Добрый день это помошник учителя, вы преподаватель или родитель ? 1.6'
         res['response']['buttons'] = get_suggests(user_id)
         return
 
@@ -79,7 +79,7 @@ def handle_dialog(req, res):
             cur = conn.cursor()
             cur.execute('INSERT INTO teachers(name,user_id) VALUES("test","user_id")')
             teachers = ('test', user_id)
-            successt = create_teacher(conn, teachers)
+            create_teacher(conn, teachers)
 
             # message = (user_id,req['session']['message_id'],req['session']['message_id'], req['request']['original_utterance'], res['response']['text'],)
             # create_message(conn,message)
