@@ -53,22 +53,21 @@ def handle_dialog(req, res):
 
         sessionStorage[user_id] = {
             'suggests': [
-                "Не хочу.",
-                "Не буду.",
-                "Отстань!",
+                "Войти",
+                "Зарегистрироваться",
             ]
         }
 
-        res['response']['text'] = 'Добрый день это помошник учителя, вы преподаватель или родитель ? 1.6'
+        res['response']['text'] = 'Добрый день, я помогаю учителям оставлять заметки родителям, родителям узнавать успеваемость и посещаемость детей.' \
+        'Вы хотите войти или зарегестрироваться?'
+
+        #Создание кнопок
         res['response']['buttons'] = get_suggests(user_id)
         return
 
     # Обрабатываем ответ пользователя.
     if req['request']['original_utterance'].lower() in [
-        'преподаватель',
-        'учитель',
-        'педагок',
-        'тренер',
+        'Зарегистрироваться'
     ]:
         res['response']['text'] = 'Добавлен учитель'
         database = "project.db"
@@ -81,7 +80,7 @@ def handle_dialog(req, res):
             teachers = ('test', user_id)
             create_teacher(conn, teachers)
 
-            message = (user_id, req['session']['message_id'], req['session']['message_id'], req['request']['original_utterance'], res['response']['text'])
+            message = (user_id, req['session']['message_id'], req['session']['session_id'], req['request']['original_utterance'], res['response']['text'])
             create_message(conn,message)
 
         # conn.commit()
@@ -90,8 +89,6 @@ def handle_dialog(req, res):
 
     # Пользователь хочет выйти из навыка
     if req['request']['original_utterance'].lower() in [
-        'Выйти',
-        'Закрыть',
         'закрыть',
         'выйти',
     ]:
@@ -113,21 +110,21 @@ def get_suggests(user_id):
     # Выбираем две первые подсказки из массива.
     suggests = [
         {'title': suggest, 'hide': True}
-        for suggest in session['suggests'][:2]
+        for suggest in session['suggests']
     ]
 
     # Убираем первую подсказку, чтобы подсказки менялись каждый раз.
-    session['suggests'] = session['suggests'][1:]
-    sessionStorage[user_id] = session
+    #session['suggests'] = session['suggests'][1:]
+    #sessionStorage[user_id] = session
 
     # Если осталась только одна подсказка, предлагаем подсказку
     # со ссылкой на Яндекс.Маркет.
-    if len(suggests) < 2:
-        suggests.append({
-            "title": "Ладно",
-            "url": "https://market.yandex.ru/search?text=слон",
-            "hide": True
-        })
+    # if len(suggests) < 2:
+    #    suggests.append({
+    #        "title": "Ладно",
+    #       "url": "https://market.yandex.ru/search?text=слон",
+    #        "hide": True
+    #    })
 
     return suggests
 
