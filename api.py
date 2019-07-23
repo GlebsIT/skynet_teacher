@@ -73,10 +73,10 @@ def handle_dialog(req, res):
         database = "project.db"
         conn = create_connection(database)
         # create a database connection
-        with conn:
+       # with conn:
             # create a new teacher
-            teachers = (user_id, 'test', 'test', 'test','test@mail.ru', '71','Тольятти')
-            create_teacher(conn, teachers)
+         #   teachers = (user_id, 'test', 'test', 'test','test@mail.ru', '71','Тольятти')
+         #   create_teacher(conn, teachers)
 
            # message = (user_id,req['session']['message_id'],req['session']['message_id'], req['request']['original_utterance'], res['response']['text'],)
            # create_message(conn,message)
