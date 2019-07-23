@@ -78,8 +78,8 @@ def handle_dialog(req, res):
             teachers = (user_id, 'test', 'test', 'test','test@mail.ru', '71','Тольятти')
             create_teacher(conn, teachers)
 
-            message = (user_id,req['session']['message_id'],req['session']['message_id'], req['request']['original_utterance'], res['response']['text'],)
-            create_message(conn,message)
+           # message = (user_id,req['session']['message_id'],req['session']['message_id'], req['request']['original_utterance'], res['response']['text'],)
+           # create_message(conn,message)
 
        # conn.commit()
 
@@ -154,7 +154,6 @@ def create_teacher(conn, teacher):
     cur = conn.cursor()
     cur.execute(sql, teacher)
     return cur.lastrowid
-
 
 def create_message(conn, message):
     """
