@@ -77,7 +77,7 @@ def handle_dialog(req, res):
         with conn:
             # create a new teacher
            cur = conn.cursor()
-           cur.execute('INSERT INTO teachers(name,surname,patronymic,sity,phonenumber,user_id) VALUES("test","surtest","test","","",user_id)')
+           cur.execute('INSERT INTO teachers(name,surname,patronymic,sity,phonenumber,user_id) VALUES("test","surtest","test","","","user_id")')
            #teachers = ('test','user_id')
            #successt = create_teacher(conn, teachers)
 
