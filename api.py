@@ -76,10 +76,10 @@ def handle_dialog(req, res):
         # create a database connection
         with conn:
             # create a new teacher
-           # cur = conn.cursor()
-           # cur.execute('INSERT INTO teachers(name,surname,patronymic,sity,phonenumber,user_id) VALUES("test","surtest","test","","","te")')
-            teachers = ('test','user_id')
-            successt = create_teacher(conn, teachers)
+           cur = conn.cursor()
+           cur.execute('INSERT INTO teachers(name,surname,patronymic,sity,phonenumber,user_id) VALUES("test","surtest","test","","",user_id)')
+           #teachers = ('test','user_id')
+           #successt = create_teacher(conn, teachers)
 
            # message = (user_id,req['session']['message_id'],req['session']['message_id'], req['request']['original_utterance'], res['response']['text'],)
            # create_message(conn,message)
