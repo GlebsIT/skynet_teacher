@@ -46,6 +46,9 @@ def main():
 # Функция для непосредственной обработки диалога.
 def handle_dialog(req, res):
     user_id = req['session']['user_id']
+    database = "project.db"
+    conn = create_connection(database)
+    message = (user_id, req['session']['message_id'], req['session']['session_id'], req['request']['original_utterance'],res['response']['text'])
 
     if req['session']['new']:
         # Это новый пользователь.
@@ -63,27 +66,57 @@ def handle_dialog(req, res):
 
         #Создание кнопок
         res['response']['buttons'] = get_suggests(user_id)
+
+        with conn:
+            create_message(conn, message)
+
+        return
+    else:
+        cur = conn.cursor()
+        cur.execute("SELECT top 1 * FROM messages ORDER BY message_id DESC WHERE session_id=?",
+                    [req['session']['session_id']])
+        results = cur.fetchall()
+        for row in results:
+            print(row)
+            logging.info('row: %r', row)
+
+    if req['request']['original_utterance'].lower() in [
+        'зарегистрироваться'
+        'авторизоваться'
+    ]:
+        sessionStorage[user_id] = {
+            'suggests': [
+                "учитель",
+                "родитель",
+            ]
+        }
+        res['response']['text'] = 'Вы учитель или родитель?'
+        res['response']['buttons'] = get_suggests(user_id)
+        create_message(conn, message)
+        return
+
+    if req['request']['original_utterance'].lower() in [
+        'учитель',
+        'я преподаватель',
+        'преподаватель',
+        'педагог',
+        'тренер'
+    ]:
+        res['response']['text'] = 'Скажите ваше имя'
+        create_message(conn, message)
         return
 
     # Обрабатываем ответ пользователя.
     if req['request']['original_utterance'].lower() in [
-        'зарегистрироваться'
+        'Глеб'
     ]:
         res['response']['text'] = 'Добавлен учитель'
-        database = "project.db"
-        conn = create_connection(database)
         # create a database connection
         with conn:
             # create a new teacher
-            cur = conn.cursor()
-            cur.execute('INSERT INTO teachers(name,user_id) VALUES("test","user_id")')
             teachers = ('test', user_id)
             create_teacher(conn, teachers)
-
-            message = (user_id, req['session']['message_id'], req['session']['session_id'], req['request']['original_utterance'], res['response']['text'])
             create_message(conn,message)
-
-        # conn.commit()
 
         return
 
