@@ -9,20 +9,20 @@ import sqlite3
 
 # Импортируем подмодули Flask для запуска веб-сервиса.
 from flask import Flask, request
-app = Flask(__name__)
 
+app = Flask(__name__)
 
 logging.basicConfig(filename="sample.log", level=logging.DEBUG)
 
 # Хранилище данных о сессиях.
 sessionStorage = {}
 
+
 # Задаем параметры приложения Flask.
 @app.route("/", methods=['POST'])
-
 def main():
-# Функция получает тело запроса и возвращает ответ.
-    #logging.info('Request: %r', request.json)
+    # Функция получает тело запроса и возвращает ответ.
+    # logging.info('Request: %r', request.json)
 
     response = {
         "version": request.json['version'],
@@ -34,7 +34,7 @@ def main():
 
     handle_dialog(request.json, response)
 
-    #logging.info('Response: %r', response)
+    # logging.info('Response: %r', response)
 
     return json.dumps(
         response,
@@ -42,9 +42,9 @@ def main():
         indent=2
     )
 
+
 # Функция для непосредственной обработки диалога.
 def handle_dialog(req, res):
-
     user_id = req['session']['user_id']
 
     if req['session']['new']:
@@ -76,14 +76,14 @@ def handle_dialog(req, res):
         # create a database connection
         with conn:
             # create a new teacher
-           cur = conn.cursor()
-           cur.execute('INSERT INTO teachers(name,user_id) VALUES("test","user_id")')
-           #teachers = ('test','user_id')
-           #successt = create_teacher(conn, teachers)
+            cur = conn.cursor()
+            cur.execute('INSERT INTO teachers(name,user_id) VALUES("test","user_id")')
+            teachers = ('test', user_id)
+            successt = create_teacher(conn, teachers)
 
-           # message = (user_id,req['session']['message_id'],req['session']['message_id'], req['request']['original_utterance'], res['response']['text'],)
-           # create_message(conn,message)
-       # conn.commit()
+            # message = (user_id,req['session']['message_id'],req['session']['message_id'], req['request']['original_utterance'], res['response']['text'],)
+            # create_message(conn,message)
+        # conn.commit()
 
         return
 
@@ -94,7 +94,6 @@ def handle_dialog(req, res):
         'закрыть',
         'выйти',
     ]:
-
         res['response']['text'] = 'Сессия убита'
         res['response']['end_session'] = True
         return
@@ -104,6 +103,7 @@ def handle_dialog(req, res):
         req['request']['original_utterance']
     )
     res['response']['buttons'] = get_suggests(user_id)
+
 
 # Функция возвращает две подсказки для ответа.
 def get_suggests(user_id):
@@ -130,6 +130,7 @@ def get_suggests(user_id):
 
     return suggests
 
+
 def create_connection(db_file):
     """ create a database connection to the SQLite database
         specified by db_file
@@ -144,6 +145,7 @@ def create_connection(db_file):
 
     return None
 
+
 def create_teacher(conn, teacher):
     """
     Create a new project into the projects table
@@ -156,6 +158,7 @@ def create_teacher(conn, teacher):
     cur = conn.cursor()
     cur.execute(sql, teacher)
     return cur.lastrowid
+
 
 def create_message(conn, message):
     """
