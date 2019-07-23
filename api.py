@@ -73,10 +73,10 @@ def handle_dialog(req, res):
         database = "project.db"
         conn = create_connection(database)
         # create a database connection
-       # with conn:
+        with conn:
             # create a new teacher
-         #   teachers = (user_id, 'test', 'test', 'test','test@mail.ru', '71','Тольятти')
-         #   create_teacher(conn, teachers)
+            teachers = ('test', 'test', 'test','test@mail.ru', '71','Тольятти','222','user_id')
+            create_teacher(conn, teachers)
 
            # message = (user_id,req['session']['message_id'],req['session']['message_id'], req['request']['original_utterance'], res['response']['text'],)
            # create_message(conn,message)
@@ -149,8 +149,8 @@ def create_teacher(conn, teacher):
     :param project:
     :return: project id
     """
-    sql = ''' INSERT INTO teachers(user_id,name,surname,patronymic,email,school,sity)
-              VALUES(?,?,?,?,?,?,?) '''
+    sql = ''' INSERT INTO teachers(name,surname,patronymic,email,school,phonenumber,city,user_id)
+              VALUES(?,?,?,?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, teacher)
     return cur.lastrowid
