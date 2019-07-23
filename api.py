@@ -67,7 +67,7 @@ def handle_dialog(req, res):
 
     # Обрабатываем ответ пользователя.
     if req['request']['original_utterance'].lower() in [
-        'Зарегистрироваться'
+        'зарегистрироваться'
     ]:
         res['response']['text'] = 'Добавлен учитель'
         database = "project.db"
