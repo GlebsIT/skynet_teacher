@@ -152,7 +152,7 @@ def create_teacher(conn, teacher):
     :param project:
     :return: project id
     """
-    sql = ''' INSERT INTO teachers(name,surname,patronymic,email,school,phonenumber,city,user_id)
+    sql = ''' INSERT INTO teachers('name','surname','patronymic','email','school','phonenumber','city','user_id')
               VALUES(?,?,?,?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, teacher)
