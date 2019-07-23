@@ -164,7 +164,7 @@ def create_message(conn, message):
     :param project:
     :return: project id
     """
-    sql = ''' INSERT INTO teachers(user_id,name,surname,patronymic,email,school,sity)
+    sql = ''' INSERT INTO teachers(user_id,name,surname,patronymic,email,school,city)
               VALUES(?,?,?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, message)
