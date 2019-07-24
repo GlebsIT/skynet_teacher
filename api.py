@@ -7,6 +7,7 @@ import json
 import logging
 import sqlite3
 
+
 # Импортируем подмодули Flask для запуска веб-сервиса.
 from flask import Flask, request
 
@@ -77,10 +78,13 @@ def handle_dialog(req, res):
 
         return
     else:
+        try:
+            results = get_message(conn, session_id)
+        except Exception as err:
+            logging.info('err: %r', err)
 
-        results = get_message(conn, session_id)
-        for row in results:
-            logging.info('row: %r', row)
+        #for row in results:
+        #   logging.info('row: %r', row)
 
         # try:
         #     curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(session_id))
@@ -212,6 +216,7 @@ def create_message(conn, message):
               VALUES(?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, message)
+    assert isinstance(cur.lastrowid, object)
     return cur.lastrowid
 
 
@@ -219,7 +224,7 @@ def get_message(conn, session_id):
     """
     Get message
     :param conn:
-    :param project:
+    :param session_id:
     :return: rezult
     """
     curmessage = conn.cursor()
