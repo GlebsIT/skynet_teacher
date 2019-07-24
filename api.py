@@ -227,7 +227,8 @@ def get_message(conn, session_id):
     :param session_id:
     :return: rezult
     """
+    sql = ''' SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1 '''
     curmessage = conn.cursor()
-    curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1", (session_id))
+    curmessage.execute(sql, (session_id))
 
     return curmessage.fetchall()
