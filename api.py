@@ -77,16 +77,16 @@ def handle_dialog(req, res):
 
         return
     else:
-        cur = conn.cursor()
+        curmessage = conn.cursor()
 
         try:
-            cur.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(session_id))
-            result = cur.fetchall()
+            curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(session_id))
+            result = curmessage.fetchall()
         except sqlite3.DatabaseError as err:
             logging.info("Error: %r", err)
         else:
             conn.commit()
-        results = cur.fetchall()
+        results = curmessage.fetchall()
     # for row in results:
     #     logging.info('row: %r', row)
 
