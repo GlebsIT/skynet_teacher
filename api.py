@@ -78,7 +78,7 @@ def handle_dialog(req, res):
         cur = conn.cursor()
 
         try:
-            cur.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",('tetetet'))
+            cur.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(req['session']['session_id']))
             result = cur.fetchall()
         except sqlite3.DatabaseError as err:
             logging.info("Error: %r", err)
