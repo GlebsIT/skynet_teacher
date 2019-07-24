@@ -48,7 +48,8 @@ def handle_dialog(req, res):
     user_id = req['session']['user_id']
     database = "project.db"
     conn = create_connection(database)
-    message = [user_id, req['session']['message_id'], req['session']['session_id'], req['request']['original_utterance']]
+    message = [user_id, req['session']['message_id'], req['session']['session_id'],
+               req['request']['original_utterance']]
 
     if req['session']['new']:
         # Это новый пользователь.
@@ -75,10 +76,10 @@ def handle_dialog(req, res):
         return
     else:
         cur = conn.cursor()
-        cur.execute("SELECT * FROM messages WHERE session_id = %s ORDER BY message_id DESC LIMIT 1" % req['session']['session_id'] )
+        cur.execute("SELECT * FROM messages WHERE session_id = %s ORDER BY message_id DESC LIMIT 1" % req['session']['session_id'])
         results = cur.fetchall()
-       # for row in results:
-       #     logging.info('row: %r', row)
+    # for row in results:
+    #     logging.info('row: %r', row)
 
     if req['request']['original_utterance'].lower() in [
         'зарегистрироваться'
