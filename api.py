@@ -48,7 +48,7 @@ def handle_dialog(req, res):
     user_id = req['session']['user_id']
     database = "project.db"
     conn = create_connection(database)
-    message = (user_id, req['session']['message_id'], req['session']['session_id'], req['request']['original_utterance'],res['response']['text'])
+    message = (user_id, req['session']['message_id'], req['session']['session_id'], req['request']['original_utterance'],"test")
 
     if req['session']['new']:
         # Это новый пользователь.
