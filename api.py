@@ -78,17 +78,20 @@ def handle_dialog(req, res):
         return
     else:
         curmessage = conn.cursor()
-
-        try:
-            curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(session_id))
-            result = curmessage.fetchall()
-        except sqlite3.DatabaseError as err:
-            logging.info("Error: %r", err)
-        else:
-            conn.commit()
+        curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1", (session_id))
         results = curmessage.fetchall()
-    # for row in results:
-    #     logging.info('row: %r', row)
+        for row in results:
+            logging.info('row: %r', row)
+
+        # try:
+        #     curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(session_id))
+        #     result = curmessage.fetchall()
+        # except sqlite3.DatabaseError as err:
+        #     logging.info("Error: %r", err)
+        # else:
+        #     conn.commit()
+
+
 
     if req['request']['original_utterance'].lower() in [
         'зарегистрироваться'
