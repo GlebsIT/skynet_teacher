@@ -77,7 +77,7 @@ def handle_dialog(req, res):
         cur = conn.cursor()
         cur.execute("SELECT top 1 * FROM messages ORDER BY message_id DESC WHERE session_id=?",
                     [req['session']['session_id']])
-        results = cur.fetchall()
+       # results = cur.fetchall()
        # for row in results:
        #     logging.info('row: %r', row)
 
