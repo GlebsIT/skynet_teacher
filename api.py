@@ -67,7 +67,7 @@ def handle_dialog(req, res):
 
         # Создание кнопок
         res['response']['buttons'] = get_suggests(user_id)
-        message.addend(res['response']['text'])
+       # message.addend(res['response']['text'])
         with conn:
             create_message(conn, message)
 
