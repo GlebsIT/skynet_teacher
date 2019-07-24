@@ -46,6 +46,8 @@ def main():
 # Функция для непосредственной обработки диалога.
 def handle_dialog(req, res):
     user_id = req['session']['user_id']
+    session_id = req['session']['session_id'];
+    message_id = req['session']['message_id'];
     database = "project.db"
     conn = create_connection(database)
     message = [user_id, req['session']['message_id'], req['session']['session_id'],
@@ -78,7 +80,7 @@ def handle_dialog(req, res):
         cur = conn.cursor()
 
         try:
-            cur.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(req['session']['session_id']))
+            cur.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(session_id))
             result = cur.fetchall()
         except sqlite3.DatabaseError as err:
             logging.info("Error: %r", err)
