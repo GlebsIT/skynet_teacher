@@ -71,14 +71,13 @@ def handle_dialog(req, res):
             create_message(conn, message)
 
         return
-    else:
-        cur = conn.cursor()
-        cur.execute("SELECT top 1 * FROM messages ORDER BY message_id DESC WHERE session_id=?",
-                    [req['session']['session_id']])
-        results = cur.fetchall()
-        for row in results:
-            print(row)
-            logging.info('row: %r', row)
+ #   else:
+#      cur = conn.cursor()
+#        cur.execute("SELECT top 1 * FROM messages ORDER BY message_id DESC WHERE session_id=?",
+ #                   [req['session']['session_id']])
+  #      results = cur.fetchall()
+   #     for row in results:
+    #        logging.info('row: %r', row)
 
     if req['request']['original_utterance'].lower() in [
         'зарегистрироваться'
