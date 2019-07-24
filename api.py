@@ -48,9 +48,7 @@ def handle_dialog(req, res):
     user_id = req['session']['user_id']
     database = "project.db"
     conn = create_connection(database)
-    message = (
-    user_id, req['session']['message_id'], req['session']['session_id'], req['request']['original_utterance'],
-    res['response']['text'])
+    message = (user_id, req['session']['message_id'], req['session']['session_id'], req['request']['original_utterance'])
 
     if req['session']['new']:
         # Это новый пользователь.
@@ -69,7 +67,7 @@ def handle_dialog(req, res):
 
         # Создание кнопок
         res['response']['buttons'] = get_suggests(user_id)
-
+        message.addend(res['response']['text'])
         with conn:
             create_message(conn, message)
 
