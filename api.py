@@ -77,9 +77,8 @@ def handle_dialog(req, res):
 
         return
     else:
-        curmessage = conn.cursor()
-        curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1", (session_id))
-        results = curmessage.fetchall()
+
+        results = get_message(conn, session_id)
         for row in results:
             logging.info('row: %r', row)
 
@@ -90,8 +89,6 @@ def handle_dialog(req, res):
         #     logging.info("Error: %r", err)
         # else:
         #     conn.commit()
-
-
 
     if req['request']['original_utterance'].lower() in [
         'зарегистрироваться'
@@ -216,3 +213,16 @@ def create_message(conn, message):
     cur = conn.cursor()
     cur.execute(sql, message)
     return cur.lastrowid
+
+
+def get_message(conn, session_id):
+    """
+    Get message
+    :param conn:
+    :param project:
+    :return: rezult
+    """
+    curmessage = conn.cursor()
+    curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1", (session_id))
+
+    return curmessage.fetchall()
