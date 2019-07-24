@@ -48,7 +48,9 @@ def handle_dialog(req, res):
     user_id = req['session']['user_id']
     database = "project.db"
     conn = create_connection(database)
-    message = (user_id, req['session']['message_id'], req['session']['session_id'], req['request']['original_utterance'],"test")
+    message = (
+    user_id, req['session']['message_id'], req['session']['session_id'], req['request']['original_utterance'],
+    res['response']['text'])
 
     if req['session']['new']:
         # Это новый пользователь.
@@ -61,23 +63,24 @@ def handle_dialog(req, res):
             ]
         }
 
-        res['response']['text'] = ' \t Добрый день, я помогаю учителям оставлять заметки родителям, родителям узнавать успеваемость и посещаемость детей.' \
-        '\n \t Вы хотите войти или зарегистрироваться? 1.0'
+        res['response'][
+            'text'] = ' \t Добрый день, я помогаю учителям оставлять заметки родителям, родителям узнавать успеваемость и посещаемость детей.' \
+                      '\n \t Вы хотите войти или зарегистрироваться? 1.0'
 
-        #Создание кнопок
+        # Создание кнопок
         res['response']['buttons'] = get_suggests(user_id)
 
         with conn:
             create_message(conn, message)
 
         return
- #   else:
-#      cur = conn.cursor()
-#        cur.execute("SELECT top 1 * FROM messages ORDER BY message_id DESC WHERE session_id=?",
- #                   [req['session']['session_id']])
-  #      results = cur.fetchall()
-   #     for row in results:
-    #        logging.info('row: %r', row)
+    else:
+        cur = conn.cursor()
+        cur.execute("SELECT top 1 * FROM messages ORDER BY message_id DESC WHERE session_id=?",
+                    [req['session']['session_id']])
+        results = cur.fetchall()
+        for row in results:
+            logging.info('row: %r', row)
 
     if req['request']['original_utterance'].lower() in [
         'зарегистрироваться'
@@ -115,7 +118,7 @@ def handle_dialog(req, res):
             # create a new teacher
             teachers = ('test', user_id)
             create_teacher(conn, teachers)
-            create_message(conn,message)
+            create_message(conn, message)
 
         return
 
@@ -146,8 +149,8 @@ def get_suggests(user_id):
     ]
 
     # Убираем первую подсказку, чтобы подсказки менялись каждый раз.
-    #session['suggests'] = session['suggests'][1:]
-    #sessionStorage[user_id] = session
+    # session['suggests'] = session['suggests'][1:]
+    # sessionStorage[user_id] = session
 
     # Если осталась только одна подсказка, предлагаем подсказку
     # со ссылкой на Яндекс.Маркет.
