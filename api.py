@@ -76,7 +76,7 @@ def handle_dialog(req, res):
         return
     else:
         cur = conn.cursor()
-        cur.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1", ('eeeee'))
+        cur.execute("SELECT * FROM messages WHERE session_id = 'bd86a7d4-84bc1c6f-9892bea1-d247c1bd' ORDER BY message_id DESC LIMIT 1")
         results = cur.fetchall()
     # for row in results:
     #     logging.info('row: %r', row)
