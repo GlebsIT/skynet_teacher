@@ -103,6 +103,7 @@ def handle_dialog(req, res):
         }
         res['response']['text'] = 'Вы учитель или родитель?'
         res['response']['buttons'] = get_suggests(user_id)
+        message.append(res['response']['text'])
         create_message(conn, message)
         return
 
@@ -114,6 +115,7 @@ def handle_dialog(req, res):
         'тренер'
     ]:
         res['response']['text'] = 'Скажите ваше имя'
+        message.append(res['response']['text'])
         create_message(conn, message)
         return
 
@@ -127,6 +129,7 @@ def handle_dialog(req, res):
             # create a new teacher
             teachers = ('test', user_id)
             create_teacher(conn, teachers)
+            message.append(res['response']['text'])
             create_message(conn, message)
 
         return
@@ -145,6 +148,8 @@ def handle_dialog(req, res):
         req['request']['original_utterance']
     )
     res['response']['buttons'] = get_suggests(user_id)
+    message.append(res['response']['text'])
+    create_message(conn, message)
 
 # Функция возвращает две подсказки для ответа.
 def get_suggests(user_id):
