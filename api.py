@@ -47,9 +47,10 @@ def main():
 # Функция для непосредственной обработки диалога.
 def handle_dialog(req, res):
     user_id = req['session']['user_id']
+    sessionStorage[user_id] = {}
     res['response']['buttons'] = get_suggests(user_id)
-    session_id = req['session']['session_id'];
-    message_id = req['session']['message_id'];
+    session_id = req['session']['session_id']
+    message_id = req['session']['message_id']
     database = "project.db"
     conn = create_connection(database)
     message = [user_id, req['session']['message_id'], req['session']['session_id'],
