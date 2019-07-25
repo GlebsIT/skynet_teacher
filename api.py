@@ -51,8 +51,9 @@ def handle_dialog(req, res):
     message_id = req['session']['message_id'];
     database = "project.db"
     conn = create_connection(database)
-    message = [user_id, req['session']['message_id'], req['session']['session_id'],
-               req['request']['original_utterance']]
+    message = {user_id, req['session']['message_id'], req['session']['session_id'],
+               req['request']['original_utterance']}
+    logging.info('request: %r', req['request']['original_utterance'])
 
     if req['session']['new']:
         # Это новый пользователь.
@@ -80,7 +81,7 @@ def handle_dialog(req, res):
     else:
 
             results = get__last_message(conn, session_id)
-            logging.info('request: %r', results)
+            logging.info('respose: %r', results[0])
 
         # try:
         #     curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(session_id))
@@ -224,6 +225,6 @@ def get__last_message(conn, session_id):
     """
 
     curmessage = conn.cursor()
-    curmessage.execute("SELECT request FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1", (session_id,))
+    curmessage.execute("SELECT response FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1", (session_id,))
 
     return curmessage.fetchone()
