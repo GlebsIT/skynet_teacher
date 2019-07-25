@@ -51,8 +51,8 @@ def handle_dialog(req, res):
     message_id = req['session']['message_id'];
     database = "project.db"
     conn = create_connection(database)
-    message = {user_id, req['session']['message_id'], req['session']['session_id'],
-               req['request']['original_utterance']}
+    message = [user_id, req['session']['message_id'], req['session']['session_id'],
+               req['request']['original_utterance']]
     logging.info('request: %r', req['request']['original_utterance'])
 
     if req['session']['new']:
