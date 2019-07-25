@@ -149,7 +149,8 @@ def handle_dialog(req, res):
         req['request']['original_utterance']
     )
     message.append(res['response']['text'])
-    create_message(conn, message)
+    with conn:
+        create_message(conn, message)
     res['response']['buttons'] = get_suggests(user_id)
 
 
