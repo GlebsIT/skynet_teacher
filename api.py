@@ -53,7 +53,7 @@ def handle_dialog(req, res):
     conn = create_connection(database)
     message = [user_id, req['session']['message_id'], req['session']['session_id'],
                req['request']['original_utterance']]
-    logging.info('request: %r', req['request']['original_utterance'])
+    logging.info('message: %r', message)
 
     if req['session']['new']:
         # Это новый пользователь.
@@ -205,8 +205,8 @@ def create_message(conn, message):
     """
     Create a new project into the projects table
     :param conn:
-    :param project:
-    :return: project id
+    :param message:
+    :return: request
     """
     sql = ''' INSERT INTO messages(user_id,message_id,session_id,request,response)
               VALUES(?,?,?,?,?) '''
