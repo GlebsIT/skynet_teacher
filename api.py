@@ -220,6 +220,7 @@ def create_message(conn, message):
     cur = conn.cursor()
     cur.execute(sql, message)
     assert isinstance(cur.lastrowid, object)
+    logging.info('request: %r \n', 'test')
     return cur.lastrowid
 
 
