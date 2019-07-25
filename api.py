@@ -238,4 +238,4 @@ def get__last_message(conn, session_id):
     curmessage.execute("SELECT request FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",
                        (session_id,))
 
-    return curmessage.fetchall()
+    return curmessage.fetchone()
