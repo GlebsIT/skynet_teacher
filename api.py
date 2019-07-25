@@ -67,7 +67,7 @@ def handle_dialog(req, res):
 
         res['response'][
             'text'] = ' \t Добрый день, я помогаю учителям оставлять заметки родителям, родителям узнавать успеваемость и посещаемость детей.' \
-                      '\n \t Вы хотите войти или зарегистрироваться? 1.0'
+                      '\n \t Вы хотите войти или зарегистрироваться? 1.1'
 
         # Создание кнопок
         res['response']['buttons'] = get_suggests(user_id)
@@ -78,13 +78,11 @@ def handle_dialog(req, res):
 
         return
     else:
-        try:
-            results = get_message(conn, session_id)
-        except Exception as err:
-            logging.info('err: %r', err)
 
-        #for row in results:
-        #   logging.info('row: %r', row)
+            results = get_message(conn, session_id)
+            logging.info('err: %r', err)
+            for row in results:
+            logging.info('row: %r', row)
 
         # try:
         #     curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(session_id))
