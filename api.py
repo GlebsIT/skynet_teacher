@@ -53,7 +53,6 @@ def handle_dialog(req, res):
     conn = create_connection(database)
     message = [user_id, req['session']['message_id'], req['session']['session_id'],
                req['request']['original_utterance']]
-    logging.info('request_messages_before_0: %r \n', message[3])
 
     if req['session']['new']:
         # Это новый пользователь.
@@ -80,7 +79,7 @@ def handle_dialog(req, res):
         return
 
     results = get__last_message(conn, session_id)
-    logging.info('request: %r \n', results[0])
+    logging.info('request: %r \n', results)
 
         # try:
         #     curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(session_id))
@@ -239,4 +238,4 @@ def get__last_message(conn, session_id):
     curmessage.execute("SELECT request FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",
                        (session_id,))
 
-    return curmessage.fetchone()
+    return curmessage.fetchall()
