@@ -79,9 +79,8 @@ def handle_dialog(req, res):
         return
     else:
 
-            results = get_message(conn, session_id)
-            for row in results:
-                logging.info('row: %r', row)
+            results = get__last_message(conn, session_id)
+            logging.info('request: %r', results["request"])
 
         # try:
         #     curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(session_id))
@@ -145,7 +144,6 @@ def handle_dialog(req, res):
         req['request']['original_utterance']
     )
     res['response']['buttons'] = get_suggests(user_id)
-
 
 # Функция возвращает две подсказки для ответа.
 def get_suggests(user_id):
@@ -217,7 +215,7 @@ def create_message(conn, message):
     return cur.lastrowid
 
 
-def get_message(conn, session_id):
+def get__last_message(conn, session_id):
     """
     Get message
     :param conn:
@@ -226,6 +224,6 @@ def get_message(conn, session_id):
     """
 
     curmessage = conn.cursor()
-    curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1", (session_id,))
+    curmessage.execute("SELECT request FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1", (session_id,))
 
-    return curmessage.fetchall()
+    return curmessage.fetchone()
