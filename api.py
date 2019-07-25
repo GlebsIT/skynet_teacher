@@ -72,18 +72,15 @@ def handle_dialog(req, res):
 
         # Создание кнопок
         res['response']['buttons'] = get_suggests(user_id)
-        logging.info('request_messages_before: %r \n', message[3])
         message.append(res['response']['text'])
-        logging.info('request_messages: %r \n', message[3])
         with conn:
             create_message(conn, message)
         # logging.info('message: %r', type(message))
 
         return
-    else:
 
-            results = get__last_message(conn, session_id)
-            logging.info('request: %r \n', results[0])
+    results = get__last_message(conn, session_id)
+    logging.info('request: %r \n', results[0])
 
         # try:
         #     curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(session_id))
