@@ -68,7 +68,7 @@ def handle_dialog(req, res):
 
         res['response'][
             'text'] = ' \t Добрый день, я помогаю учителям оставлять заметки родителям, родителям узнавать успеваемость и посещаемость детей.' \
-                      '\n \t Вы хотите войти или зарегистрироваться? 1.2'
+                      '\n \t Вы хотите войти или зарегистрироваться? 1.5'
 
         # Создание кнопок
         res['response']['buttons'] = get_suggests(user_id)
@@ -220,7 +220,7 @@ def create_message(conn, message):
     cur = conn.cursor()
     cur.execute(sql, message)
     assert isinstance(cur.lastrowid, object)
-    logging.info('request: %r \n', 'test')
+    logging.info('works: %r \n', 'works')
     return cur.lastrowid
 
 
