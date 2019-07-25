@@ -80,7 +80,7 @@ def handle_dialog(req, res):
         return
 
     results = get__last_message(conn, session_id)
-    logging.info('request: %r \n', results[0])
+    logging.info('request: %r \n', results)
 
         # try:
         #     curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(session_id))
@@ -140,15 +140,18 @@ def handle_dialog(req, res):
     ]:
         res['response']['text'] = 'Сессия убита'
         res['response']['end_session'] = True
+        message.append(res['response']['text'])
+        create_message(conn, message)
         return
 
     # Если нет, то убеждаем его купить слона!
     res['response']['text'] = 'Все говорят "%s", а ты купи слона!' % (
         req['request']['original_utterance']
     )
-    res['response']['buttons'] = get_suggests(user_id)
     message.append(res['response']['text'])
     create_message(conn, message)
+    res['response']['buttons'] = get_suggests(user_id)
+
 
 # Функция возвращает две подсказки для ответа.
 def get_suggests(user_id):
