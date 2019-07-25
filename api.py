@@ -219,7 +219,6 @@ def create_message(conn, message):
               VALUES(?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, message)
-    assert isinstance(cur.lastrowid, object)
     logging.info('works: %r \n', 'works')
     return cur.lastrowid
 
@@ -233,6 +232,7 @@ def get__last_message(conn, session_id):
     """
 
     curmessage = conn.cursor()
-    curmessage.execute("SELECT request FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1", (session_id,))
+    curmessage.execute("SELECT request FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",
+                       (session_id,))
 
     return curmessage.fetchone()
