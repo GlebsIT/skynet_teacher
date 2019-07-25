@@ -47,6 +47,7 @@ def main():
 # Функция для непосредственной обработки диалога.
 def handle_dialog(req, res):
     user_id = req['session']['user_id']
+    res['response']['buttons'] = get_suggests(user_id)
     session_id = req['session']['session_id'];
     message_id = req['session']['message_id'];
     database = "project.db"
@@ -61,7 +62,7 @@ def handle_dialog(req, res):
         sessionStorage[user_id] = {
             'suggests': [
                 "Войти",
-                "Зарегистрироваться",
+                "Зарегистрироваться"
             ]
         }
 
@@ -90,16 +91,16 @@ def handle_dialog(req, res):
         #     conn.commit()
 
     if req['request']['original_utterance'].lower() in [
-        'зарегистрироваться'
-        'авторизоваться'
+        'зарегистрироваться',
+        'регистрация'
     ]:
+        res['response']['text'] = 'Вы учитель или родитель?'
         sessionStorage[user_id] = {
             'suggests': [
                 "учитель",
-                "родитель",
+                "родитель"
             ]
         }
-        res['response']['text'] = 'Вы учитель или родитель?'
         res['response']['buttons'] = get_suggests(user_id)
         message.append(res['response']['text'])
         with conn:
@@ -111,7 +112,9 @@ def handle_dialog(req, res):
         'я преподаватель',
         'преподаватель',
         'педагог',
-        'тренер'
+        'тренер',
+        'я тренер',
+        'я преподаватель'
     ]:
         res['response']['text'] = 'Скажите ваше имя'
         message.append(res['response']['text'])
@@ -222,7 +225,6 @@ def create_message(conn, message):
               VALUES(?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, message)
-    logging.info('works: %r \n', 'works')
     return cur.lastrowid
 
 
