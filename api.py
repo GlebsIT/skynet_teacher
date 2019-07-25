@@ -80,7 +80,7 @@ def handle_dialog(req, res):
     else:
 
             results = get__last_message(conn, session_id)
-            logging.info('request: %r', results[0])
+            logging.info('request: %r', results)
 
         # try:
         #     curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(session_id))
