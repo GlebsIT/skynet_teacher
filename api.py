@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 # Импортируем модули для работы с JSON и логами.
+import datetime
 import json
 import logging
 import sqlite3
@@ -51,10 +52,11 @@ def handle_dialog(req, res):
     res['response']['buttons'] = get_suggests(user_id)
     session_id = req['session']['session_id']
     message_id = req['session']['message_id']
+    request = req['request']['original_utterance']
     database = "project.db"
     conn = create_connection(database)
     message = [user_id, req['session']['message_id'], req['session']['session_id'],
-               req['request']['original_utterance']]
+               request]
 
     if req['session']['new']:
         # Это новый пользователь.
@@ -74,90 +76,116 @@ def handle_dialog(req, res):
         # Создание кнопок
         res['response']['buttons'] = get_suggests(user_id)
         message.append(res['response']['text'])
+        today = datetime.datetime.today()
+        message.append(today)
+        message.append('123')
         with conn:
             create_message(conn, message)
-        # logging.info('message: %r', type(message))
 
+        # logging.info('message: %r', type(message))
         return
 
     results = get__last_message(conn, session_id)
     logging.info('request: %r \n', results[0])
-
-        # try:
-        #     curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(session_id))
-        #     result = curmessage.fetchall()
-        # except sqlite3.DatabaseError as err:
-        #     logging.info("Error: %r", err)
-        # else:
-        #     conn.commit()
-
-    if req['request']['original_utterance'].lower() in [
-        'зарегистрироваться',
-        'регистрация'
-    ]:
-        res['response']['text'] = 'Вы учитель или родитель?'
-        sessionStorage[user_id] = {
-            'suggests': [
-                "учитель",
-                "родитель"
-            ]
-        }
-        res['response']['buttons'] = get_suggests(user_id)
-        message.append(res['response']['text'])
-        with conn:
-            create_message(conn, message)
-        return
-
-    if req['request']['original_utterance'].lower() in [
-        'учитель',
-        'я преподаватель',
-        'преподаватель',
-        'педагог',
-        'тренер',
-        'я тренер',
-        'я преподаватель'
-    ]:
-        res['response']['text'] = 'Скажите ваше имя'
-        message.append(res['response']['text'])
-        with conn:
-            create_message(conn, message)
-        return
-
-    # Обрабатываем ответ пользователя.
-    if req['request']['original_utterance'].lower() in [
-        'Глеб'
-    ]:
-        res['response']['text'] = 'Добавлен учитель'
-        # create a database connection
-        with conn:
-            # create a new teacher
-            teachers = ('test', user_id)
-            create_teacher(conn, teachers)
-            message.append(res['response']['text'])
-            create_message(conn, message)
-
-        return
-
-    # Пользователь хочет выйти из навыка
-    if req['request']['original_utterance'].lower() in [
-        'закрыть',
-        'выйти',
-    ]:
-        res['response']['text'] = 'Сессия убита'
-        res['response']['end_session'] = True
-        message.append(res['response']['text'])
-        with conn:
-            create_message(conn, message)
-        return
-
-    # Если нет, то убеждаем его купить слона!
-    res['response']['text'] = 'Все говорят "%s", а ты купи слона!' % (
-        req['request']['original_utterance']
-    )
-    message.append(res['response']['text'])
-    with conn:
-        create_message(conn, message)
-    res['response']['buttons'] = get_suggests(user_id)
+    #
+    #     # try:
+    #     #     curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(session_id))
+    #     #     result = curmessage.fetchall()
+    #     # except sqlite3.DatabaseError as err:
+    #     #     logging.info("Error: %r", err)
+    #     # else:
+    #     #     conn.commit()
+    #
+    # if results[0] == "ваше имя":
+    #     res['response']['text'] = 'Ваша фамилия'
+    #     # create a database connection
+    #     with conn:
+    #         # create a new teacher
+    #         teachers = (request, user_id)
+    #         create_teacher(conn, teachers)
+    #         message.append(res['response']['text'])
+    #         create_message(conn, message)
+    #
+    #     return
+    #
+    # if results[0] == "ваше фамилия":
+    #     res['response']['text'] = 'Ваша фамилия'
+    #     # create a database connection
+    #     with conn:
+    #         # create a new teacher
+    #         teachers = (request, user_id)
+    #         create_teacher(conn, teachers)
+    #         message.append(res['response']['text'])
+    #         create_message(conn, message)
+    #
+    #     return
+    #
+    # if results[0] == "ваше отчество":
+    #     res['response']['text'] = 'Ваша фамилия'
+    #     # create a database connection
+    #     with conn:
+    #         # create a new teacher
+    #         teachers = (request, user_id)
+    #         create_teacher(conn, teachers)
+    #         message.append(res['response']['text'])
+    #         create_message(conn, message)
+    #
+    #     return
+    #
+    # if req['request']['original_utterance'].lower() in [
+    #     'зарегистрироваться',
+    #     'регистрация'
+    # ]:
+    #     res['response']['text'] = 'Вы учитель или родитель?'
+    #     sessionStorage[user_id] = {
+    #         'suggests': [
+    #             "учитель",
+    #             "родитель"
+    #         ]
+    #     }
+    #     res['response']['buttons'] = get_suggests(user_id)
+    #     message.append(res['response']['text'])
+    #     with conn:
+    #         create_message(conn, message)
+    #     return
+    #
+    # if req['request']['original_utterance'].lower() in [
+    #     'учитель',
+    #     'я преподаватель',
+    #     'преподаватель',
+    #     'педагог',
+    #     'тренер',
+    #     'я тренер',
+    #     'я преподаватель'
+    # ]:
+    #     res['response']['text'] = 'Ваше имя'
+    #     message.append(res['response']['text'])
+    #     with conn:
+    #         create_message(conn, message)
+    #     return
+    #
+    #
+    #
+    # # Пользователь хочет выйти из навыка
+    # if req['request']['original_utterance'].lower() in [
+    #     'закрыть',
+    #     'выйти',
+    # ]:
+    #     res['response']['text'] = 'Сессия убита'
+    #     res['response']['end_session'] = True
+    #     message.append(res['response']['text'])
+    #     with conn:
+    #         create_message(conn, message)
+    #     return
+    #
+    # # Если нет, то убеждаем его купить слона!
+    # res['response']['text'] = 'Все говорят "%s", а ты купи слона!' % (
+    #     req['request']['original_utterance']
+    # )
+    # message.append(res['response']['text'])
+    # with conn:
+    #     create_message(conn, message)
+    # res['response']['buttons'] = get_suggests(user_id)
 
 
 # Функция возвращает две подсказки для ответа.
@@ -222,8 +250,8 @@ def create_message(conn, message):
     :param message:
     :return: request
     """
-    sql = ''' INSERT INTO messages(user_id,message_id,session_id,request,response)
-              VALUES(?,?,?,?,?) '''
+    sql = ''' INSERT INTO messages(user_id,message_id,session_id,request,response,data_today,id_skill)
+              VALUES(?,?,?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, message)
     return cur.lastrowid
