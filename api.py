@@ -124,7 +124,6 @@ def handle_dialog(req, res):
     #         create_teacher(conn, teachers)
     #         message.append(res['response']['text'])
     #         create_message(conn, message)
-    #
     #     return
     #
     # if results[0] == "ваше отчество":
