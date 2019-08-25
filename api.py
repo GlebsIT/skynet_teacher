@@ -60,11 +60,12 @@ def handle_dialog(req, res):
     results = get__last_message(conn, user_id)
     id_parents = ''
     if results != None:
-        logging.info('request: %r \n', results[0])
+        logging.info('results: %r \n', results[0])
         id_parents = results[0]
 
     logging.info('request: %r \n', request)
-    skill = get__skill(conn, id_parents, request)
+    #skill = get__skill(conn, id_parents, request)
+    skill = ''
     if skill != None:
         logging.info('skill: %r \n', skill)
 
