@@ -81,7 +81,8 @@ def handle_dialog(req, res):
 
         sessionStorage[user_id] = {
             'suggests': [
-                button
+                "Войти",
+                "Зарегестрироваться"
             ]
         }
 
