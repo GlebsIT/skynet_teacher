@@ -64,8 +64,8 @@ def handle_dialog(req, res):
         id_parents = results[0]
 
     logging.info('request: %r \n', request)
-    #skill = get__skill(conn, id_parents, request)
-    skill = ''
+    skill = get__skill(conn, id_parents, request)
+    #skill = ''
     if skill != None:
         logging.info('skill: %r \n', skill)
 
@@ -292,6 +292,6 @@ def get__skill(conn, id_parents, template):
     """
 
     curmessage = conn.cursor()
-    curmessage.execute("SELECT id_skill FROM logic_skill WHERE id_parents = ? and template = ? DESC LIMIT 1",
+    curmessage.execute("SELECT response, button FROM logic_skill WHERE id_parents = ? and template = ? DESC LIMIT 1",
                        (id_parents, template))
     return curmessage.fetchone()
