@@ -288,5 +288,6 @@ def get__skill(conn, id_parents, template):
     """
 
     curskill = conn.cursor()
-    curskill.execute("SELECT response, button FROM logic_skill WHERE id_parents = '1' DESC LIMIT 1")
+    curskill.execute("SELECT response, button FROM logic_skill WHERE id_parents = ? and template = ? LIMIT 1",
+                     (id_parents, template))
     return curskill.fetchone()
