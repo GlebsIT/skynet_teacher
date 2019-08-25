@@ -8,7 +8,6 @@ import json
 import logging
 import sqlite3
 
-
 # Импортируем подмодули Flask для запуска веб-сервиса.
 from flask import Flask, request
 
@@ -48,7 +47,7 @@ def main():
 # Функция для непосредственной обработки диалога.
 def handle_dialog(req, res):
     user_id = req['session']['user_id']
-    sessionStorage[user_id] = {'suggests': [ ] }
+    sessionStorage[user_id] = {'suggests': []}
     res['response']['buttons'] = get_suggests(user_id)
     session_id = req['session']['session_id']
     message_id = req['session']['message_id']
@@ -65,14 +64,13 @@ def handle_dialog(req, res):
 
     logging.info('request: %r \n', request)
     skill = get__skill(conn, '', '')
-    #skill = ''
+    # skill = ''
     if skill != None:
-        logging.info('skill: %r \n', skill[0])
+        logging.info('skill: %r \n', skill)
 
     if req['session']['new']:
         # Это новый пользователь.
         # Инициализируем сессию и поприветствуем его.
-
 
         sessionStorage[user_id] = {
             'suggests': [
@@ -80,7 +78,6 @@ def handle_dialog(req, res):
                 "Зарегистрироваться"
             ]
         }
-
 
         res['response'][
             'text'] = ' \t Добрый день, я помогаю учителям оставлять заметки родителям, родителям узнавать успеваемость и посещаемость детей.' \
@@ -292,5 +289,6 @@ def get__skill(conn, id_parents, template):
     """
 
     curskill = conn.cursor()
-    curskill.execute("SELECT response, button FROM logic_skill DESC LIMIT 1")
+    curskill.execute("SELECT response, button FROM logic_skill WHERE id_parents = ? DESC LIMIT 1",
+                     (id_parents,))
     return curskill.fetchone()
