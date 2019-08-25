@@ -71,7 +71,7 @@ def handle_dialog(req, res):
     skill = get__skill(conn, '', '')
 
     if skill != None:
-        logging.info('skill: %r \n', skill)
+        logging.info('button: %r \n', skill[1].split(','))
         response = skill[0]
         button = skill[1].split(',')
         id_skill = skill[2]
