@@ -53,20 +53,28 @@ def handle_dialog(req, res):
     message_id = req['session']['message_id']
     request = req['request']['original_utterance']
     database = "project.db"
+    response = 'ok';
+    button = '';
+    id_parents = ''
+    id_skill = ''
+
     conn = create_connection(database)
     message = [user_id, req['session']['message_id'], req['session']['session_id'],
                request]
     results = get__last_message(conn, user_id)
-    id_parents = ''
+
     if results != None:
         logging.info('results: %r \n', results[0])
         id_parents = results[0]
 
     logging.info('request: %r \n', request)
     skill = get__skill(conn, '', '')
-    # skill = ''
+
     if skill != None:
         logging.info('skill: %r \n', skill)
+        response = skill[0]
+        button = skill[1]
+        id_skill = skill[2]
 
     if req['session']['new']:
         # Это новый пользователь.
@@ -79,19 +87,16 @@ def handle_dialog(req, res):
             ]
         }
 
-        res['response'][
-            'text'] = ' \t Добрый день, я помогаю учителям оставлять заметки родителям, родителям узнавать успеваемость и посещаемость детей.' \
-                      '\n \t Вы хотите войти или зарегистрироваться? 1.5'
+        res['response']['text'] = response
 
         # Создание кнопок
         res['response']['buttons'] = get_suggests(user_id)
         message.append(res['response']['text'])
         today = datetime.datetime.today()
         message.append(today)
-        message.append('123')
+        message.append(id_skill)
         with conn:
             create_message(conn, message)
-
         # logging.info('message: %r', type(message))
         return
     #
@@ -288,6 +293,6 @@ def get__skill(conn, id_parents, template):
     """
 
     curskill = conn.cursor()
-    curskill.execute("SELECT response, button FROM logic_skill WHERE id_parents = ? and template = ? LIMIT 1",
+    curskill.execute("SELECT response, button, id_logic FROM logic_skill WHERE id_parents = ? and template = ? LIMIT 1",
                      (id_parents, template))
     return curskill.fetchone()
