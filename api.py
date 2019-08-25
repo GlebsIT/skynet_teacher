@@ -57,10 +57,21 @@ def handle_dialog(req, res):
     conn = create_connection(database)
     message = [user_id, req['session']['message_id'], req['session']['session_id'],
                request]
+    results = get__last_message(conn, user_id)
+    id_parents = ''
+    if results != None:
+        logging.info('request: %r \n', results[0])
+        id_parents = results[0]
+
+    logging.info('request: %r \n', request)
+    skill = get__skill(conn, id_parents, request)
+    if skill != None:
+        logging.info('skill: %r \n', skill)
 
     if req['session']['new']:
         # Это новый пользователь.
         # Инициализируем сессию и поприветствуем его.
+
 
         sessionStorage[user_id] = {
             'suggests': [
@@ -68,6 +79,7 @@ def handle_dialog(req, res):
                 "Зарегистрироваться"
             ]
         }
+
 
         res['response'][
             'text'] = ' \t Добрый день, я помогаю учителям оставлять заметки родителям, родителям узнавать успеваемость и посещаемость детей.' \
@@ -83,8 +95,6 @@ def handle_dialog(req, res):
             create_message(conn, message)
 
         # logging.info('message: %r', type(message))
-        results = get__last_message(conn, session_id)
-        logging.info('request: %r \n', results[0])
         return
     #
     #     # try:
@@ -256,7 +266,7 @@ def create_message(conn, message):
     return cur.lastrowid
 
 
-def get__last_message(conn, session_id):
+def get__last_message(conn, user_id):
     """
     Get message
     :param conn:
@@ -265,7 +275,22 @@ def get__last_message(conn, session_id):
     """
 
     curmessage = conn.cursor()
-    curmessage.execute("SELECT request FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",
-                       (session_id,))
+    curmessage.execute("SELECT id_skill FROM messages WHERE user_id = ? ORDER BY message_id DESC LIMIT 1",
+                       (user_id,))
 
+    return curmessage.fetchone()
+
+
+def get__skill(conn, id_parents, template):
+    """
+    Get message
+    :param template:
+    :param conn:
+    :param session_id:
+    :return: rezult
+    """
+
+    curmessage = conn.cursor()
+    curmessage.execute("SELECT id_skill FROM logic_skill WHERE id_parents = ? and template = ? DESC LIMIT 1",
+                       (id_parents, template))
     return curmessage.fetchone()
