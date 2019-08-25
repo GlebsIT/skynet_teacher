@@ -285,13 +285,12 @@ def get__last_message(conn, user_id):
 def get__skill(conn, id_parents, template):
     """
     Get message
-    :param template:
     :param conn:
-    :param session_id:
+    :param id_parents:
+    :param template:
     :return: rezult
     """
 
-    curmessage = conn.cursor()
-    curmessage.execute("SELECT response, button FROM logic_skill WHERE id_parents = ? and template = ? DESC LIMIT 1",
-                       (id_parents, template))
-    return curmessage.fetchone()
+    curskill = conn.cursor()
+    curskill.execute("SELECT response, button FROM logic_skill DESC LIMIT 1")
+    return curskill.fetchone()
