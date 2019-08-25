@@ -64,7 +64,7 @@ def handle_dialog(req, res):
         id_parents = results[0]
 
     logging.info('request: %r \n', request)
-    skill = get__skill(conn, id_parents, request)
+    skill = get__skill(conn, '', '')
     #skill = ''
     if skill != None:
         logging.info('skill: %r \n', skill)
