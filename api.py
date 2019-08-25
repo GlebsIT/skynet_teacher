@@ -80,9 +80,7 @@ def handle_dialog(req, res):
         # Инициализируем сессию и поприветствуем его.
 
         sessionStorage[user_id] = {
-            'suggests': [
-                ",\n".join(button)
-            ]
+            'suggests': button
         }
 
         res['response']['text'] = response
@@ -202,10 +200,11 @@ def get_suggests(user_id):
     session = sessionStorage[user_id]
 
     # Выбираем две первые подсказки из массива.
-    suggests = [
-        {'title': suggest, 'hide': True}
-        for suggest in session['suggests']
-    ]
+    suggests = []
+
+    for suggest in session:
+        suggests.append({'title': suggest, 'hide': True})
+
     logging.info('suggests: %r \n', suggests)
     # Убираем первую подсказку, чтобы подсказки менялись каждый раз.
     # session['suggests'] = session['suggests'][1:]
