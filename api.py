@@ -73,7 +73,7 @@ def handle_dialog(req, res):
     if skill != None:
         logging.info('skill: %r \n', skill)
         response = skill[0]
-        button = skill[1]
+        button = skill[1].split(',')
         id_skill = skill[2]
 
     if req['session']['new']:
