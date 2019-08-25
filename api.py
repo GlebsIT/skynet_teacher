@@ -67,7 +67,7 @@ def handle_dialog(req, res):
     skill = get__skill(conn, '', '')
     #skill = ''
     if skill != None:
-        logging.info('skill: %r \n', skill)
+        logging.info('skill: %r \n', skill[0])
 
     if req['session']['new']:
         # Это новый пользователь.
