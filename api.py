@@ -71,7 +71,6 @@ def handle_dialog(req, res):
     skill = get__skill(conn, '', '')
 
     if skill != None:
-        logging.info('button: %r \n', skill[1].split(','))
         response = skill[0]
         button = skill[1].split(',')
         id_skill = skill[2]
@@ -207,7 +206,7 @@ def get_suggests(user_id):
         {'title': suggest, 'hide': True}
         for suggest in session['suggests']
     ]
-
+    logging.info('suggests: %r \n', suggests)
     # Убираем первую подсказку, чтобы подсказки менялись каждый раз.
     # session['suggests'] = session['suggests'][1:]
     # sessionStorage[user_id] = session
