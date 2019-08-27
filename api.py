@@ -280,7 +280,7 @@ def get__skill(conn, id_parents, template, shablon = None):
     curskill = conn.cursor()
     if shablon is None:
         curskill.execute("SELECT response, button, id_logic FROM logic_skill WHERE id_parents = ? and template lIKE '' LIMIT 1",
-                     (id_parents, template))
+                     (id_parents,))
     else:
         curskill.execute(
             "SELECT response, button, id_logic FROM logic_skill WHERE id_parents = ? and template LIKE ? LIMIT 1",
