@@ -67,8 +67,8 @@ def handle_dialog(req, res):
         logging.info('results: %r \n', results[0])
         id_parents = results[0]
 
-    logging.info('request: %r \n', request)
-    skill = get__skill(conn, '', '')
+    #logging.info('request: %r \n', request)
+    skill = get__skill(conn, id_parents, request)
 
     if skill != None:
         response = skill[0]
@@ -195,29 +195,18 @@ def handle_dialog(req, res):
     # res['response']['buttons'] = get_suggests(user_id)
 
 
-# Функция возвращает две подсказки для ответа.
+# Функция возвращает подсказки для ответа.
 def get_suggests(user_id):
     session = sessionStorage[user_id]
 
-    # Выбираем две первые подсказки из массива.
     suggests = []
+    if session['suggests'] == '':
+        return suggests
+
     for suggest in session['suggests']:
         suggests.append({'title': suggest, 'hide': True})
 
     logging.info('suggests: %r \n', suggests)
-    # Убираем первую подсказку, чтобы подсказки менялись каждый раз.
-    # session['suggests'] = session['suggests'][1:]
-    # sessionStorage[user_id] = session
-
-    # Если осталась только одна подсказка, предлагаем подсказку
-    # со ссылкой на Яндекс.Маркет.
-    # if len(suggests) < 2:
-    #    suggests.append({
-    #        "title": "Ладно",
-    #       "url": "https://market.yandex.ru/search?text=слон",
-    #        "hide": True
-    #    })
-
     return suggests
 
 
@@ -289,6 +278,7 @@ def get__skill(conn, id_parents, template):
     """
 
     curskill = conn.cursor()
-    curskill.execute("SELECT response, button, id_logic FROM logic_skill WHERE id_parents = ? and template = ? LIMIT 1",
+    curskill.execute("SELECT response, button, id_logic FROM logic_skill WHERE id_parents = ? and template LIKE ? LIMIT 1",
                      (id_parents, template))
+
     return curskill.fetchone()
