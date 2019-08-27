@@ -63,12 +63,12 @@ def handle_dialog(req, res):
                request]
     results = get__last_message(conn, user_id)
 
-    if results != None:
+    if results != None and not req['session']['new']:
         logging.info('results: %r \n', results[0])
         id_parents = results[0]
 
     #logging.info('request: %r \n', request)
-    skill = get__skill(conn, id_parents, "")
+    skill = get__skill(conn, id_parents, request)
 
     if skill != None:
         response = skill[0]
@@ -278,7 +278,8 @@ def get__skill(conn, id_parents, template):
     """
 
     curskill = conn.cursor()
-    curskill.execute("SELECT response, button, id_logic FROM logic_skill WHERE id_parents = ? LIMIT 1",
-                     (id_parents,))
+    curskill.execute(
+        "SELECT response, button, id_logic FROM logic_skill WHERE id_parents = ? and template LIKE ? LIMIT 1",
+        (id_parents, template))
 
     return curskill.fetchone()
