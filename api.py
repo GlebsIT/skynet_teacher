@@ -268,7 +268,7 @@ def get__last_message(conn, user_id):
     return curmessage.fetchone()
 
 
-def get__skill(conn, id_parents, template):
+def get__skill(conn, id_parents, template, shablon = None):
     """
     Get message
     :param conn:
@@ -278,7 +278,12 @@ def get__skill(conn, id_parents, template):
     """
 
     curskill = conn.cursor()
-    curskill.execute("SELECT response, button, id_logic FROM logic_skill WHERE id_parents = ? and template LIKE ? LIMIT 1",
+    if shablon is None:
+        curskill.execute("SELECT response, button, id_logic FROM logic_skill WHERE id_parents = ? and template lIKE '' LIMIT 1",
                      (id_parents, template))
+    else:
+        curskill.execute(
+            "SELECT response, button, id_logic FROM logic_skill WHERE id_parents = ? and template LIKE ? LIMIT 1",
+            (id_parents, template))
 
     return curskill.fetchone()
