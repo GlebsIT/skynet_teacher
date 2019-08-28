@@ -73,6 +73,7 @@ def handle_dialog(req, res):
     if skill != None:
         response = skill[0]
         button = skill[1].split(',')
+        logging.info('button: %r \n', button)
         id_skill = str(skill[2])
         logging.info('skill: %r \n', skill)
 
