@@ -259,7 +259,7 @@ def get__last_message(conn, user_id):
     """
 
     curmessage = conn.cursor()
-    curmessage.execute("SELECT id_skill FROM messages WHERE user_id = ? ORDER BY message_id DESC LIMIT 1",
+    curmessage.execute("SELECT id_skill FROM messages WHERE user_id = ? ORDER BY data_today DESC LIMIT 1",
                        (user_id,))
 
     return curmessage.fetchone()
@@ -276,7 +276,13 @@ def get__skill(conn, id_parents, template):
 
     curskill = conn.cursor()
     curskill.execute(
-        "SELECT response, button, id_logic FROM logic_skill WHERE id_parents = ? and template LIKE ? LIMIT 1",
-        (id_parents, template))
+        "SELECT response, button, id_logic, template FROM logic_skill WHERE id_parents = ? ",
+        (id_parents, ))
+    spisok = curskill.fetchall();
+    for element in spisok:
+        if element[3] == template:
+            return element
 
-    return curskill.fetchone()
+    for element in spisok:
+        if template in element[3]:
+            return element
