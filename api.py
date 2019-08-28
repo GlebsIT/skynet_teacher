@@ -51,7 +51,7 @@ def handle_dialog(req, res):
     res['response']['buttons'] = get_suggests(user_id)
     session_id = req['session']['session_id']
     message_id = req['session']['message_id']
-    request = req['request']['original_utterance']
+    request = req['request']['original_utterance'].lstrip()
     database = "project.db"
     response = 'ok';
     button = '';
