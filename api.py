@@ -281,6 +281,10 @@ def get__skill(conn, id_parents, template):
         "SELECT response, button, id_logic, template FROM logic_skill WHERE id_parents = ? ",
         (id_parents, ))
     spisok = curskill.fetchall();
+
+    if len(spisok) == 1:
+        return spisok[0]
+
     for element in spisok:
         logging.info('element[3]: %r \n', element[3])
         if element[3] == template:
