@@ -89,6 +89,7 @@ def handle_dialog(req, res):
     message.append(today)
     message.append(id_skill)
     with conn:
+        logging.info('message: %r \n', message)
         create_message(conn, message)
     return
     #
