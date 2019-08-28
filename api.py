@@ -64,10 +64,10 @@ def handle_dialog(req, res):
     results = get__last_message(conn, user_id)
 
     if results != None and not req['session']['new']:
-        logging.info('results: %r \n', results[0])
+        logging.info('results: %r \n', results)
         id_parents = results[0]
 
-    #logging.info('request: %r \n', request)
+    logging.info('request: %r \n', request)
     skill = get__skill(conn, id_parents, request)
 
     if skill != None:
