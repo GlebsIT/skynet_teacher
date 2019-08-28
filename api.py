@@ -64,7 +64,7 @@ def handle_dialog(req, res):
     results = get__last_message(conn, user_id)
 
     if results != None and not req['session']['new']:
-        logging.info('results: %r \n', results)
+        logging.info('results: %r \n', results[0])
         id_parents = results[0]
 
     logging.info('request: %r \n', request)
@@ -280,9 +280,11 @@ def get__skill(conn, id_parents, template):
         (id_parents, ))
     spisok = curskill.fetchall();
     for element in spisok:
+        logging.info('element[3]: %r \n', element[3])
         if element[3] == template:
             return element
 
     for element in spisok:
+        logging.info('element[3_2]: %r \n', element[3])
         if template in element[3]:
             return element
