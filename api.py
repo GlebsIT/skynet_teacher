@@ -75,26 +75,21 @@ def handle_dialog(req, res):
         button = skill[1].split(',')
         id_skill = skill[2]
 
-    if req['session']['new']:
-        # Это новый пользователь.
-        # Инициализируем сессию и поприветствуем его.
+    sessionStorage[user_id] = {
+        'suggests': button
+    }
 
-        sessionStorage[user_id] = {
-            'suggests': button
-        }
+    res['response']['text'] = response
 
-        res['response']['text'] = response
-
-        # Создание кнопок
-        res['response']['buttons'] = get_suggests(user_id)
-        message.append(res['response']['text'])
-        today = datetime.datetime.today()
-        message.append(today)
-        message.append(id_skill)
-        with conn:
-            create_message(conn, message)
-        # logging.info('message: %r', type(message))
-        return
+    # Создание кнопок
+    res['response']['buttons'] = get_suggests(user_id)
+    message.append(res['response']['text'])
+    today = datetime.datetime.today()
+    message.append(today)
+    message.append(id_skill)
+    with conn:
+        create_message(conn, message)
+    return
     #
     #     # try:
     #     #     curmessage.execute("SELECT * FROM messages WHERE session_id = ? ORDER BY message_id DESC LIMIT 1",(session_id))
