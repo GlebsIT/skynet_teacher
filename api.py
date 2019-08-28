@@ -202,7 +202,8 @@ def get_suggests(user_id):
         return suggests
 
     for suggest in session['suggests']:
-        suggests.append({'title': suggest, 'hide': True})
+        if suggest != '':
+            suggests.append({'title': suggest, 'hide': True})
 
     logging.info('suggests: %r \n', suggests)
     return suggests
